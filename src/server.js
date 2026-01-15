@@ -1,4 +1,5 @@
 const app = require("./app");
+require("./workers/seatExpiry.worker");
 require("dotenv").config();
 const connectMongo = require("./config/mongo");
 const PORT = process.env.port ||5000;
