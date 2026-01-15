@@ -1,7 +1,7 @@
 const express = require("express");
 const { register, login,refresh,logout } = require("./auth.controller");
 const authMiddleware = require("./auth.middleware");
-
+const roleMiddleware = require("../../middlewares/role.middleware");
 const router = express.Router();
 
 router.post("/register", register);
@@ -15,5 +15,14 @@ router.get("/profile", authMiddleware, (req, res) => {
     user: req.user
   });
 });
+
+router.get(
+  "/admin-only",
+  authMiddleware,
+  roleMiddleware("ADMIN"),
+  (req, res) => {
+    res.json({ message: "Welcome Admin" });
+  }
+);
 
 module.exports = router;

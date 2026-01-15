@@ -1,42 +1,42 @@
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const { generateAccessToken,generateRefreshToken} = require("./auth.service");
-
-// Temporary user store (DB later)
-const users = [];
-let refreshTokens = [];
+const jwt = require("jsonwebtoken");
+const pool = require("../../config/postgress");
+const {
+  generateAccessToken,
+  generateRefreshToken,
+} = require("./auth.service");
 
 exports.register = async (req, res) => {
   const { email, password } = req.body;
 
-  const existing = users.find(u => u.email === email);
-  if (existing) {
-    return res.status(400).json({ message: "User already exists" });
-  }
-
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const user = {
-    id: users.length + 1,
-    email,
-    password: hashedPassword
-  };
+  try {
+    await pool.query(
+      "INSERT INTO users (email, password_hash) VALUES ($1, $2)",
+      [email, hashedPassword]
+    );
 
-  users.push(user);
-
-  res.status(201).json({ message: "User registered successfully" });
+    res.status(201).json({ message: "User registered successfully" });
+  } catch (err) {
+    res.status(400).json({ message: "User already exists" });
+  }
 };
-
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
-  const user = users.find(u => u.email === email);
+const result = await pool.query(
+  "SELECT id, email, password_hash, role FROM users WHERE email=$1",
+  [email]
+);
+
+  const user = result.rows[0];
   if (!user) {
     return res.status(401).json({ message: "Invalid credentials" });
   }
 
-  const isMatch = await bcrypt.compare(password, user.password);
+  const isMatch = await bcrypt.compare(password, user.password_hash);
   if (!isMatch) {
     return res.status(401).json({ message: "Invalid credentials" });
   }
@@ -44,15 +44,30 @@ exports.login = async (req, res) => {
   const accessToken = generateAccessToken(user);
   const refreshToken = generateRefreshToken(user);
 
-  refreshTokens.push(refreshToken);
+  const decoded = jwt.decode(refreshToken);
+
+  await pool.query(
+    `INSERT INTO refresh_tokens (user_id, token, expires_at)
+     VALUES ($1, $2, to_timestamp($3))`,
+    [user.id, refreshToken, decoded.exp]
+  );
 
   res.json({ accessToken, refreshToken });
 };
 
-exports.refresh = (req, res) => {
+exports.refresh = async (req, res) => {
   const { refreshToken } = req.body;
 
-  if (!refreshToken || !refreshTokens.includes(refreshToken)) {
+  if (!refreshToken) {
+    return res.status(403).json({ message: "Refresh token required" });
+  }
+
+  const stored = await pool.query(
+    "SELECT * FROM refresh_tokens WHERE token=$1",
+    [refreshToken]
+  );
+
+  if (stored.rows.length === 0) {
     return res.status(403).json({ message: "Invalid refresh token" });
   }
 
@@ -62,16 +77,21 @@ exports.refresh = (req, res) => {
       process.env.JWT_REFRESH_SECRET
     );
 
-    const newAccessToken = generateAccessToken({ id: decoded.id });
-    res.json({ accessToken: newAccessToken });
+    const accessToken = generateAccessToken({ id: decoded.id });
+    res.json({ accessToken });
 
-  } catch (err) {
-    res.status(403).json({ message: "Token expired or invalid" });
+  } catch {
+    res.status(403).json({ message: "Expired refresh token" });
   }
 };
 
-exports.logout = (req, res) => {
+exports.logout = async (req, res) => {
   const { refreshToken } = req.body;
-  refreshTokens = refreshTokens.filter(t => t !== refreshToken);
+
+  await pool.query(
+    "DELETE FROM refresh_tokens WHERE token=$1",
+    [refreshToken]
+  );
+
   res.json({ message: "Logged out successfully" });
 };
