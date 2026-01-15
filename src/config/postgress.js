@@ -4,7 +4,7 @@ const pool = new Pool({
   user: "postgres",
   host: "localhost",
   database: "eventra",
-  password: "1206",   // REAL password
+  password: "1206",
   port: 5432,
 });
 
