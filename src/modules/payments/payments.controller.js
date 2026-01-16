@@ -1,5 +1,7 @@
 const pool = require("../../config/postgress");
 const redis = require("../../config/redis");
+const emailQueue = require("../../queues/email.queue");
+
 
 exports.pay = async (req, res) => {
   const { bookingId } = req.body;
@@ -37,7 +39,11 @@ exports.pay = async (req, res) => {
     const holdKey = `hold:booking:${bookingId}`;
     await redis.del(holdKey);
     res.json({ message: "Payment successful. Booking confirmed." });
-
+    await emailQueue.add("booking-confirmation", {
+    to: req.user.email,
+    subject: "Booking Confirmed",
+    text: `Your booking #${bookingId} is confirmed.`,
+    });
   } catch (err) {
     await client.query("ROLLBACK");
     res.status(400).json({ message: err.message });
