@@ -162,7 +162,40 @@ eventra/
 
 ```
 ---
+## ⚙️ Environment Variables
 
+Create a `.env` file in the project root and configure the following variables:
+
+```env
+# Server
+PORT=5000
+
+# PostgreSQL
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=eventra
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=your_postgres_password
+
+# MongoDB
+MONGO_HOST=mongo
+MONGO_PORT=27017
+MONGO_DB=eventra
+
+# Redis
+REDIS_HOST=redis
+REDIS_PORT=6379
+
+# JWT
+JWT_ACCESS_SECRET=your_access_token_secret
+JWT_REFRESH_SECRET=your_refresh_token_secret
+ACCESS_TOKEN_EXPIRES=15m
+REFRESH_TOKEN_EXPIRES=7d
+
+# Email (used for notifications)
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASS=your_email_password
+---
 
 ## 🔄 Seat Booking Flow (High Level)
 
