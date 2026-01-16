@@ -159,9 +159,7 @@ eventra/
 │   │   └── payments/
 │   │       ├── payments.routes.js
 │   │       └── payments.controller.js
-│
-│   └── database/
-│       └── seed.sql              # Initial DB seed (seats, sample data)
+
 ```
 ---
 
