@@ -195,6 +195,7 @@ REFRESH_TOKEN_EXPIRES=7d
 # Email (used for notifications)
 EMAIL_USER=your_email@gmail.com
 EMAIL_PASS=your_email_password
+```
 ---
 
 ## 🔄 Seat Booking Flow (High Level)
