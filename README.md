@@ -107,6 +107,8 @@ All APIs are fully documented and testable via **POSTMAN/Swagger**.
 ---
 
 ## 📁 Project File Structure
+
+```text
 eventra/
 ├── Dockerfile
 ├── docker-compose.yml
@@ -162,8 +164,6 @@ eventra/
 │       └── seed.sql              # Initial DB seed (seats, sample data)
 
 
-
----
 
 ## 🔄 Seat Booking Flow (High Level)
 
