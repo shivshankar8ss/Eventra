@@ -163,7 +163,7 @@ eventra/
 │   └── database/
 │       └── seed.sql              # Initial DB seed (seats, sample data)
 
-
+---
 
 ## 🔄 Seat Booking Flow (High Level)
 
