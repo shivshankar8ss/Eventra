@@ -3,7 +3,7 @@
 Eventra is a **backend-focused event ticketing system** built to demonstrate real-world backend engineering concepts such as **authentication**, **concurrency control**, **distributed locking**, **transaction management**, and **asynchronous processing**.
 
 This project intentionally focuses on **backend scalability and correctness** rather than frontend UI.  
-All APIs are fully documented and testable via **Swagger (OpenAPI)**.
+All APIs are fully documented and testable via **POSTMAN/Swagger**.
 
 ---
 
@@ -107,7 +107,7 @@ All APIs are fully documented and testable via **Swagger (OpenAPI)**.
 ---
 
 ## 📁 Project File Structure
-
+---
 eventra/
 ├── Dockerfile
 ├── docker-compose.yml
