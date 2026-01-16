@@ -107,7 +107,6 @@ All APIs are fully documented and testable via **POSTMAN/Swagger**.
 ---
 
 ## 📁 Project File Structure
----
 eventra/
 ├── Dockerfile
 ├── docker-compose.yml
@@ -116,31 +115,31 @@ eventra/
 ├── README.md
 │
 ├── src/
-│   ├── server.js                # Application entry point
-│   ├── app.js                   # Express app setup & route registration
+│   ├── server.js                 # Application entry point
+│   ├── app.js                    # Express app setup & route registration
 │
-│   ├── config/                  # Configuration files
-│   │   ├── postgres.js          # PostgreSQL connection
-│   │   ├── redis.js             # Redis client (cache, locks, TTL)
-│   │   ├── bullmq.redis.js      # Redis config for BullMQ
-│   │   └── swagger.js           # Swagger / OpenAPI configuration
+│   ├── config/                   # Configuration files
+│   │   ├── postgres.js           # PostgreSQL connection
+│   │   ├── redis.js              # Redis client (cache, locks, TTL)
+│   │   ├── bullmq.redis.js       # Redis config for BullMQ
+│   │   └── swagger.js            # Swagger / OpenAPI configuration
 │
-│   ├── middlewares/             # Global middlewares
-│   │   ├── auth.middleware.js   # JWT authentication
-│   │   ├── role.middleware.js   # Role-based access control
+│   ├── middlewares/              # Global middlewares
+│   │   ├── auth.middleware.js    # JWT authentication
+│   │   ├── role.middleware.js    # Role-based access control
 │   │   └── rateLimiter.middleware.js
 │
 │   ├── utils/
-│   │   └── redisLock.js         # Distributed Redis lock helper
+│   │   └── redisLock.js          # Distributed Redis lock helper
 │
 │   ├── queues/
-│   │   └── email.queue.js       # BullMQ email producer
+│   │   └── email.queue.js        # BullMQ email producer
 │
 │   ├── workers/
-│   │   ├── seatExpiry.worker.js # Auto seat release worker (Redis TTL)
-│   │   └── email.worker.js      # Email sending worker
+│   │   ├── seatExpiry.worker.js  # Auto seat release worker (Redis TTL)
+│   │   └── email.worker.js       # Email sending worker
 │
-│   ├── modules/                 # Feature-based modules
+│   ├── modules/                  # Feature-based modules
 │   │   ├── auth/
 │   │   │   ├── auth.routes.js
 │   │   │   ├── auth.controller.js
@@ -149,7 +148,7 @@ eventra/
 │   │   ├── events/
 │   │   │   ├── events.routes.js
 │   │   │   ├── events.controller.js
-│   │   │   └── events.model.js  # MongoDB model
+│   │   │   └── events.model.js   # MongoDB model
 │   │   │
 │   │   ├── bookings/
 │   │   │   ├── bookings.routes.js
@@ -160,7 +159,7 @@ eventra/
 │   │       └── payments.controller.js
 │
 │   └── database/
-│       └── seed.sql             # Initial DB seed (seats, sample data)
+│       └── seed.sql              # Initial DB seed (seats, sample data)
 
 
 
