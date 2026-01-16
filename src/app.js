@@ -4,7 +4,7 @@ const authRoutes = require("./modules/auth/auth.routes");
 const eventRoutes = require("./modules/events/events.routes");
 const rateLimiter = require("./middlewares/rateLimiter.middleware");
 const bookingRoutes = require("./modules/bookings/bookings.routes");
-
+const paymentRoutes = require("./modules/payments/payments.routes");
 const app = express();
 
 app.use(cors());
@@ -18,4 +18,5 @@ app.use("/api/auth", authRoutes);
 app.use("/api/events", eventRoutes);
 app.use(rateLimiter);
 app.use("/api/bookings", bookingRoutes);
+app.use("/api/payments", paymentRoutes);
 module.exports = app;
